@@ -103,7 +103,7 @@
     
     //CHANGE 6: add code her to connect to the selected peripheral (aPeripheral)
     
-    
+    [self.bleShield connectPeripheral:aPeripheral];
 }
 
 /*

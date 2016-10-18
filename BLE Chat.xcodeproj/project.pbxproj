@@ -148,7 +148,7 @@
 				ORGANIZATIONNAME = "Red Bear Company Limited";
 				TargetAttributes = {
 					2941610015DB55E5003210B3 = {
-						DevelopmentTeam = APD62CDC25;
+						DevelopmentTeam = P3RSMH643E;
 					};
 				};
 			};
@@ -295,7 +295,7 @@
 		2941612015DB55E5003210B3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				DEVELOPMENT_TEAM = APD62CDC25;
+				DEVELOPMENT_TEAM = P3RSMH643E;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/..\"",
@@ -306,7 +306,7 @@
 				GCC_PREFIX_HEADER = "BLEChat/BLE Chat-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/BLEChat/BLE Chat-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
-				PRODUCT_BUNDLE_IDENTIFIER = "net.redbear.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_BUNDLE_IDENTIFIER = lukeoglesbee.ica4;
 				PRODUCT_NAME = "BLE Chat";
 				WRAPPER_EXTENSION = app;
 			};
@@ -315,7 +315,7 @@
 		2941612115DB55E5003210B3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				DEVELOPMENT_TEAM = APD62CDC25;
+				DEVELOPMENT_TEAM = P3RSMH643E;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/..\"",
@@ -326,7 +326,7 @@
 				GCC_PREFIX_HEADER = "BLEChat/BLE Chat-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/BLEChat/BLE Chat-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
-				PRODUCT_BUNDLE_IDENTIFIER = "net.redbear.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_BUNDLE_IDENTIFIER = lukeoglesbee.ica4;
 				PRODUCT_NAME = "BLE Chat";
 				WRAPPER_EXTENSION = app;
 			};

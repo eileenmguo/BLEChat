@@ -24,16 +24,17 @@
     
     // CHANGE 1.a: change this as you no longer need to instantiate the BLE Object like this
     // nor should this ViewController be the delegate
-    bleShield = [[BLE alloc] init];
-    [bleShield controlSetup];
-    bleShield.delegate = self;
+
+    //    bleShield = [[BLE alloc] init];
+//    [bleShield controlSetup];
+//    bleShield.delegate = self;
     
     //CHANGE 4: add subscription to notifications from the app delegate
     //These selector functions should be created from the old BLEDelegate functions
     // One example has already been completed for you on the receiving of data function
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onBLEDidConnect:) name:kBleConnectNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onBLEDidDisconnect:) name:kBleDisconnectNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onBLEDidUpdateRSSI:) name:kBleRSSINotification object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onBLEDidUpdateRSSI:) name:kBleRSSINotification object:nil];
     
     // this example function "onBLEDidReceiveData:" is done for you, see below
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector (onBLEDidReceiveData:) name:kBleReceivedDataNotification object:nil];
@@ -49,7 +50,7 @@
 NSTimer *rssiTimer;
 -(void) readRSSITimer:(NSTimer *)timer
 {
-    [bleShield readRSSI]; // be sure that the RSSI is up to date
+    [self.bleShield readRSSI]; // be sure that the RSSI is up to date
 }
 
 #pragma mark - BLEdelegate protocol methods
@@ -57,6 +58,12 @@ NSTimer *rssiTimer;
 {
     self.labelRSSI.text = rssi.stringValue; // when RSSI read is complete, display it
 }
+
+//-(void) onBLEDidUpdateRSSI:(NSNotification *)notification
+//{
+//    NSData* rssi = [[notification userInfo] objectForKey:@"rssi"];
+//    self.labelRSSI.text = NSNumber init
+//}
 
 // OLD FUNCTION: parse the received data using BLEDelegate protocol
 -(void) bleDidReceiveData:(unsigned char *)data length:(int)length
@@ -75,6 +82,7 @@ NSTimer *rssiTimer;
 }
 
 // we disconnected, stop running
+/*
 - (void) bleDidDisconnect
 {
     //CHANGE 5.b: remove all instances of the button at top
@@ -82,12 +90,23 @@ NSTimer *rssiTimer;
     
     [rssiTimer invalidate];
 }
+*/
 
+-(void) onBLEDidDisconnect:(NSNotification *)NSNotification
+{
+//    [rssiTimer invalidate];
+    [self.spinner startAnimating];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.BLENameLabel.text = @"";
+    });
+}
+ 
 //CHANGE 7: create function called from "BLEDidConnect" notification (you can change the function below)
 // in this function, update a label on the UI to have the name of the active peripheral
 // you might be interested in the following method:
 // NSString *deviceName =[notification.userInfo objectForKey:@"deviceName"];
 // now just wait to send or receive
+/*
 -(void) bleDidConnect
 {
     //CHANGE 5.a: Remove all usage of the connect button and remove from storyboard
@@ -97,7 +116,17 @@ NSTimer *rssiTimer;
     // Schedule to read RSSI every 1 sec.
     rssiTimer = [NSTimer scheduledTimerWithTimeInterval:(float)1.0 target:self selector:@selector(readRSSITimer:) userInfo:nil repeats:YES];
 }
+*/
 
+-(void) onBLEDidConnect:(NSNotification *)notification
+{
+    [self.spinner stopAnimating];
+    NSString *name = [[notification userInfo] objectForKey:@"deviceName"];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.BLENameLabel.text = name;
+    });
+//    rssiTimer = [NSTimer scheduledTimerWithTimeInterval:(float)1.0 target:self selector:@selector(readRSSITimer:) userInfo:nil repeats:YES];
+}
 
 
 #pragma mark - UI operations storyboard
@@ -116,11 +145,17 @@ NSTimer *rssiTimer;
     s = [NSString stringWithFormat:@"%@\r\n", s];
     d = [s dataUsingEncoding:NSUTF8StringEncoding];
     
-    [bleShield write:d];
+    [self.bleShield write:d];
 }
 
+-(BLE*)bleShield
+{
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    return appDelegate.bleShield;
+}
 
 // CHANGE 1.b: change this as you no longer need to search for perpipherals in this view controller
+/*
 - (IBAction)BLEShieldScan:(id)sender
 {
     // disconnect from any peripherals
@@ -149,9 +184,11 @@ NSTimer *rssiTimer;
     // give connection feedback to the user
     [self.spinner startAnimating];
 }
+*/
 
 // CHANGE 1.c: change this as you no longer need to create the connection in this view controller
 // Called when scan period is over to connect to the first found peripheral
+/*
 -(void) connectionTimer:(NSTimer *)timer
 {
     if(bleShield.peripherals.count > 0)
@@ -164,5 +201,6 @@ NSTimer *rssiTimer;
         [self.spinner stopAnimating];
     }
 }
+*/
 
 @end
