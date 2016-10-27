@@ -14,9 +14,16 @@
 
 @implementation BlindViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onBLEDidConnect:) name:kBleConnectNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onBLEDidDisconnect:) name:kBleDisconnectNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector (onBLEDidReceiveData:) name:kBleReceivedDataNotification object:nil];
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -24,7 +31,51 @@
     // Dispose of any resources that can be recreated.
 }
 - (IBAction)adjustBlindSlider:(UISlider *)sender {
+    //BLE Shield Sender!!!!
+    
     self.BlindOverlay.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:(1.0-self.BlindSlider.value)];
+    
+    NSString *s;
+    NSData *d;
+    
+    float f = (int) (self.BlindSlider.value * 180);
+    
+    s = [NSString stringWithFormat:@"p %f", f];
+    NSLog(@"%@", s);
+    d = [s dataUsingEncoding:NSUTF8StringEncoding];
+    
+    [self.bleShield write:d];
+}
+
+
+// NEW FUNCTION EXAMPLE: parse the received data from NSNotification
+-(void) onBLEDidReceiveData:(NSNotification *)notification
+{
+    NSData* d = [[notification userInfo] objectForKey:@"data"];
+    NSString *s = [[NSString alloc] initWithData:d encoding:NSUTF8StringEncoding];
+    NSLog(@"%@", s);
+    
+    float value = [s floatValue];
+    self.BlindOverlay.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:(1.0-value)];
+}
+
+-(void) onBLEDidDisconnect:(NSNotification *)NSNotification
+{
+    NSLog(@"Disconnected");
+}
+
+-(void) onBLEDidConnect:(NSNotification *)notification
+{
+    NSString *name = [[notification userInfo] objectForKey:@"deviceName"];
+    NSLog(@"%@", name);
+    //    rssiTimer = [NSTimer scheduledTimerWithTimeInterval:(float)1.0 target:self selector:@selector(readRSSITimer:) userInfo:nil repeats:YES];
+}
+
+
+-(BLE*)bleShield
+{
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    return appDelegate.bleShield;
 }
 
 /*

@@ -7,9 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BLE.h"
+#import "AppDelegate.h"
 
 @interface BlindViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UISlider *BlindSlider;
 @property (weak, nonatomic) IBOutlet UIView *BlindOverlay;
+@property (strong, nonatomic) BLE *bleShield;
 
 @end
