@@ -17,6 +17,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.bleShield = [[BLE alloc] init];
+    [self.bleShield controlSetup];
+    self.bleShield.delegate = self;
     
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onBLEDidConnect:) name:kBleConnectNotification object:nil];
@@ -33,18 +36,26 @@
 - (IBAction)adjustBlindSlider:(UISlider *)sender {
     //BLE Shield Sender!!!!
     
+//    NSString *s;
+//    NSData *d;
+//    
+//    float f = (int) (self.BlindSlider.value * 180);
+//    
+//    s = [NSString stringWithFormat:@"p %f", f];
+//    NSLog(@"%@", s);
+//    d = [s dataUsingEncoding:NSUTF8StringEncoding];
+//    
+//    [self.self.bleShieldShield write:d];
+    
     self.BlindOverlay.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:(1.0-self.BlindSlider.value)];
+    UInt8 buf[3] = {0x03, 0x00, 0x00};  //opcode for slider we set to 0x03, other two bytes hold the data to send
     
-    NSString *s;
-    NSData *d;
+    buf[1] = self.BlindSlider.value;
+    buf[2] = (int)self.BlindSlider.value >> 8;
     
-    float f = (int) (self.BlindSlider.value * 180);
+    NSData *data = [[NSData alloc] initWithBytes:buf length:3];
+    [self.bleShield write:data];
     
-    s = [NSString stringWithFormat:@"p %f", f];
-    NSLog(@"%@", s);
-    d = [s dataUsingEncoding:NSUTF8StringEncoding];
-    
-    [self.bleShield write:d];
 }
 
 
@@ -67,7 +78,23 @@
 -(void) onBLEDidConnect:(NSNotification *)notification
 {
     NSString *name = [[notification userInfo] objectForKey:@"deviceName"];
-    NSLog(@"%@", name);
+    NSLog(@"%@ %s", name, "Connected");
+
+    
+    //    [indConnecting stopAnimating];
+    
+    self.BlindSlider.enabled = true;
+    
+    self.BlindSlider.value = 0;
+    
+    // send reset
+    UInt8 buf[] = {0x04, 0x00, 0x00};  // opcode 0x04 is defined as a reset by the arduino code
+    NSData *data = [[NSData alloc] initWithBytes:buf length:3];
+    [self.bleShield write:data];
+
+    
+    
+    
     //    rssiTimer = [NSTimer scheduledTimerWithTimeInterval:(float)1.0 target:self selector:@selector(readRSSITimer:) userInfo:nil repeats:YES];
 }
 
