@@ -15,6 +15,8 @@
 		2941611C15DB55E5003210B3 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2941611B15DB55E5003210B3 /* ViewController.m */; };
 		2941613515DBCCE5003210B3 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2941613415DBCCE5003210B3 /* CoreBluetooth.framework */; };
 		29FD69DD17B9D5C30015E258 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29FD69DC17B9D5C30015E258 /* Default-568h@2x.png */; };
+		5EF26B081DC1828C00621AD3 /* BlindViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EF26B071DC1828C00621AD3 /* BlindViewController.m */; };
+		5EF26B0A1DC1829E00621AD3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5EF26B091DC1829E00621AD3 /* Assets.xcassets */; };
 		B659BE0C1DAFFEBE00E9791C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B659BE0B1DAFFEBE00E9791C /* UIKit.framework */; };
 		B6A98B951ABCF7CE0033F220 /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6A98B941ABCF7CE0033F220 /* TableViewController.m */; };
 /* End PBXBuildFile section */
@@ -35,6 +37,9 @@
 		2941611B15DB55E5003210B3 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		2941613415DBCCE5003210B3 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		29FD69DC17B9D5C30015E258 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		5EF26B061DC1828C00621AD3 /* BlindViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlindViewController.h; sourceTree = "<group>"; };
+		5EF26B071DC1828C00621AD3 /* BlindViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlindViewController.m; sourceTree = "<group>"; };
+		5EF26B091DC1829E00621AD3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B659BE0B1DAFFEBE00E9791C /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		B6A98B931ABCF7CE0033F220 /* TableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewController.h; sourceTree = "<group>"; };
 		B6A98B941ABCF7CE0033F220 /* TableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewController.m; sourceTree = "<group>"; };
@@ -88,6 +93,9 @@
 				2941611515DB55E5003210B3 /* AppDelegate.m */,
 				2941611715DB55E5003210B3 /* MainStoryboard.storyboard */,
 				B6A98B931ABCF7CE0033F220 /* TableViewController.h */,
+				5EF26B091DC1829E00621AD3 /* Assets.xcassets */,
+				5EF26B061DC1828C00621AD3 /* BlindViewController.h */,
+				5EF26B071DC1828C00621AD3 /* BlindViewController.m */,
 				B6A98B941ABCF7CE0033F220 /* TableViewController.m */,
 				2941611A15DB55E5003210B3 /* ViewController.h */,
 				2941611B15DB55E5003210B3 /* ViewController.m */,
@@ -176,6 +184,7 @@
 			files = (
 				2941611015DB55E5003210B3 /* InfoPlist.strings in Resources */,
 				2941611915DB55E5003210B3 /* MainStoryboard.storyboard in Resources */,
+				5EF26B0A1DC1829E00621AD3 /* Assets.xcassets in Resources */,
 				29FD69DD17B9D5C30015E258 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -191,6 +200,7 @@
 				2941611615DB55E5003210B3 /* AppDelegate.m in Sources */,
 				2941611C15DB55E5003210B3 /* ViewController.m in Sources */,
 				B6A98B951ABCF7CE0033F220 /* TableViewController.m in Sources */,
+				5EF26B081DC1828C00621AD3 /* BlindViewController.m in Sources */,
 				2932F6931813D79B0049385E /* BLE.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
