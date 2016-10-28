@@ -13,6 +13,7 @@
 @interface BlindViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UISlider *BlindSlider;
 @property (weak, nonatomic) IBOutlet UIView *BlindOverlay;
+@property (weak, nonatomic) IBOutlet UISwitch *Manual_Auto_Switch;
 @property (strong, nonatomic) BLE *bleShield;
 
 @end

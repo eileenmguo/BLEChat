@@ -55,7 +55,15 @@
     [self.bleShield write:data];
     
 }
-
+- (IBAction)toggleManual_Auto_Switch:(UISwitch *)sender{
+    NSLog(@"Toggled!");
+    
+    //1 is auto, 0 is manual
+    UInt8 buf[2] = {0x04, 0x00};
+    buf[1] = (UInt8)((self.Manual_Auto_Switch.isOn) ? 1 : 0);
+    NSData *data = [[NSData alloc] initWithBytes:buf length:2];
+    [self.bleShield write:data];
+}
 
 // NEW FUNCTION EXAMPLE: parse the received data from NSNotification
 -(void) onBLEDidReceiveData:(NSNotification *)notification
@@ -68,6 +76,7 @@
     [d getBytes:&data range:NSMakeRange(1, 1)];
     float v;
     
+    //receive data from photoresistor
     if (opCode == 0x00) {
         v = ((float)data) / 255.0;
         NSLog(@"%d", data);
@@ -76,7 +85,7 @@
             self.view.backgroundColor = [UIColor colorWithHue:0 saturation:0 brightness:1-v alpha:1];
         });
     }
-    //receive button data
+    //receive UI update data on button press
     else if(opCode == 0x01) {
         v = ((float)data) / 255.0;
         NSLog(@"%d", data);
@@ -87,6 +96,14 @@
                 [self.BlindSlider setValue: v animated: YES];
                 self.BlindOverlay.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:(1.0-v)];
             }];
+            [self.Manual_Auto_Switch setOn: false];
+        });
+    }
+    //receive switch info to update UI
+    else if(opCode == 0x04) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.Manual_Auto_Switch setOn: true];
+
         });
     }
 }

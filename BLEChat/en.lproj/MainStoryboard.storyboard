@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES" initialViewController="vI4-CS-Xcc">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES" initialViewController="vI4-CS-Xcc">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
@@ -219,6 +219,11 @@
                                     <action selector="adjustBlindSlider:" destination="6vT-9h-pqx" eventType="valueChanged" id="hw8-W8-tFi"/>
                                 </connections>
                             </slider>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uHc-c9-0KD">
+                                <connections>
+                                    <action selector="toggleManual_Auto_Switch:" destination="6vT-9h-pqx" eventType="valueChanged" id="oVY-sO-jkS"/>
+                                </connections>
+                            </switch>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -234,13 +239,16 @@
                             <constraint firstItem="fWP-bg-Xc9" firstAttribute="leading" secondItem="OSZ-lg-z0j" secondAttribute="leading" constant="-16" id="hwi-cc-vLJ"/>
                             <constraint firstItem="bfc-1r-G4X" firstAttribute="leading" secondItem="0ac-lc-BsB" secondAttribute="leadingMargin" id="kff-dP-PZJ"/>
                             <constraint firstItem="YMq-g3-CIZ" firstAttribute="top" secondItem="wQz-RT-L7Q" secondAttribute="bottom" constant="8" symbolic="YES" id="sTI-dk-H7J"/>
+                            <constraint firstItem="uHc-c9-0KD" firstAttribute="top" secondItem="YMq-g3-CIZ" secondAttribute="top" id="uvg-uc-zdL"/>
                             <constraint firstItem="fWP-bg-Xc9" firstAttribute="top" secondItem="0ac-lc-BsB" secondAttribute="top" constant="266" id="vAL-Dx-mUn"/>
+                            <constraint firstItem="uHc-c9-0KD" firstAttribute="trailing" secondItem="oEa-ZJ-k26" secondAttribute="trailing" id="vbO-cs-epf"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="yUM-Ps-xBL"/>
                     <connections>
                         <outlet property="BlindOverlay" destination="fWP-bg-Xc9" id="2VK-aV-e0h"/>
                         <outlet property="BlindSlider" destination="OSZ-lg-z0j" id="byG-wF-xSN"/>
+                        <outlet property="Manual_Auto_Switch" destination="uHc-c9-0KD" id="iHW-ZC-UfA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Mu-gk-JQf" userLabel="First Responder" sceneMemberID="firstResponder"/>
