@@ -81,15 +81,13 @@
         v = ((float)data) / 255.0;
         NSLog(@"%d", data);
         NSLog(@"%.4f", v);
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            self.BlindSlider.value = v;
-//        });
+
         dispatch_async(dispatch_get_main_queue(), ^{
-            [UIView animateWithDuration:2 animations:^{
-                [self.BlindSlider setValue: v];
+            [UIView animateWithDuration:0.3 animations:^{
+                [self.BlindSlider setValue: v animated: YES];
+                self.BlindOverlay.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:(1.0-v)];
             }];
         });
-        self.BlindOverlay.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:(1.0-v)];
     }
 }
 
