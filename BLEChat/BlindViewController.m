@@ -17,6 +17,18 @@
 
 @implementation BlindViewController
 
+/*
+ (in)
+ 0 = light value
+ 1 = servo position
+ 2 = automated -> only receive a 1 which means to turn off
+ 
+ (out)
+ 3 = slider value
+ 4 = automated
+*/
+
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -92,25 +104,25 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             self.view.backgroundColor = [UIColor colorWithHue:0 saturation:0 brightness:1-v alpha:1];
         });
-    }
-    //receive UI update data on button press
-    else if(opCode == 0x01) {
+    } else if(opCode == 0x01) {
+        // Servo movement
         v = ((float)data) / 255.0;
-        NSLog(@"%d", data);
-        NSLog(@"%.4f", v);
-
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [UIView animateWithDuration:0.3 animations:^{
-                [self.BlindSlider setValue: v animated: YES];
-                self.BlindOverlay.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:(1.0-v)];
-            }];
-            [self.Manual_Auto_Switch setOn: false];
-        });
+        NSDate * now = [NSDate date];
+        NSDate * debounceTargetTime = [self.lastSliderUpdateTime dateByAddingTimeInterval:self.debounceTime];
+        
+        if ([now compare:debounceTargetTime] == NSOrderedDescending) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [UIView animateWithDuration:0.3 animations:^{
+                    [self.BlindSlider setValue: v animated: YES];
+                    self.BlindOverlay.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:(1.0-v)];
+                }];
+            });
+        }
     }
-    //receive switch info to update UI
-    else if(opCode == 0x04) {
+    //if you receive opcode 0x02 then turn switch off/manual mode
+    else if(opCode == 0x02) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self.Manual_Auto_Switch setOn: true];
+            [self.Manual_Auto_Switch setOn: false];
 
         });
     }

@@ -20,18 +20,18 @@
                                 <rect key="frame" x="0.0" y="86" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="g2X-WF-AtF" id="DzA-Dy-gA4">
-                                    <frame key="frameInset" width="342" height="43"/>
+                                    <frame key="frameInset" width="342" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="6Pd-QY-7NK">
-                                            <frame key="frameInset" minX="15" minY="5" width="32" height="20"/>
+                                            <frame key="frameInset" minX="15" minY="6" width="31.5" height="19.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="OmI-dX-rSe">
-                                            <frame key="frameInset" minX="15" minY="25" width="31" height="14"/>
+                                            <frame key="frameInset" minX="15" minY="25.5" width="30.5" height="13.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -224,6 +224,11 @@
                                     <action selector="toggleManual_Auto_Switch:" destination="6vT-9h-pqx" eventType="valueChanged" id="oVY-sO-jkS"/>
                                 </connections>
                             </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Automate This!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JnD-DM-Kcx">
+                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                <color key="textColor" red="0.6352462369109948" green="0.0" blue="0.013043483483104407" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -234,14 +239,18 @@
                             <constraint firstItem="OSZ-lg-z0j" firstAttribute="leading" secondItem="0ac-lc-BsB" secondAttribute="leading" constant="16" id="Pts-Bz-WNW"/>
                             <constraint firstAttribute="trailing" secondItem="OSZ-lg-z0j" secondAttribute="trailing" constant="16" id="QyY-gA-ssX"/>
                             <constraint firstAttribute="trailingMargin" secondItem="oEa-ZJ-k26" secondAttribute="trailing" id="cUk-LF-V5c"/>
+                            <constraint firstItem="uHc-c9-0KD" firstAttribute="top" secondItem="JnD-DM-Kcx" secondAttribute="bottom" constant="6" id="e08-Aq-k54"/>
                             <constraint firstItem="fWP-bg-Xc9" firstAttribute="trailing" secondItem="OSZ-lg-z0j" secondAttribute="trailing" constant="16" id="has-fc-Uz8"/>
                             <constraint firstItem="OSZ-lg-z0j" firstAttribute="top" secondItem="bfc-1r-G4X" secondAttribute="bottom" constant="8" symbolic="YES" id="hmC-nd-mm5"/>
                             <constraint firstItem="fWP-bg-Xc9" firstAttribute="leading" secondItem="OSZ-lg-z0j" secondAttribute="leading" constant="-16" id="hwi-cc-vLJ"/>
                             <constraint firstItem="bfc-1r-G4X" firstAttribute="leading" secondItem="0ac-lc-BsB" secondAttribute="leadingMargin" id="kff-dP-PZJ"/>
+                            <constraint firstItem="JnD-DM-Kcx" firstAttribute="top" secondItem="YMq-g3-CIZ" secondAttribute="top" id="rv4-9s-jFf"/>
                             <constraint firstItem="YMq-g3-CIZ" firstAttribute="top" secondItem="wQz-RT-L7Q" secondAttribute="bottom" constant="8" symbolic="YES" id="sTI-dk-H7J"/>
-                            <constraint firstItem="uHc-c9-0KD" firstAttribute="top" secondItem="YMq-g3-CIZ" secondAttribute="top" id="uvg-uc-zdL"/>
+                            <constraint firstItem="uHc-c9-0KD" firstAttribute="top" secondItem="YMq-g3-CIZ" secondAttribute="top" constant="27" id="uvg-uc-zdL"/>
                             <constraint firstItem="fWP-bg-Xc9" firstAttribute="top" secondItem="0ac-lc-BsB" secondAttribute="top" constant="266" id="vAL-Dx-mUn"/>
-                            <constraint firstItem="uHc-c9-0KD" firstAttribute="trailing" secondItem="oEa-ZJ-k26" secondAttribute="trailing" id="vbO-cs-epf"/>
+                            <constraint firstItem="uHc-c9-0KD" firstAttribute="trailing" secondItem="oEa-ZJ-k26" secondAttribute="trailing" constant="-18" id="vbO-cs-epf"/>
+                            <constraint firstItem="JnD-DM-Kcx" firstAttribute="trailing" secondItem="oEa-ZJ-k26" secondAttribute="trailing" id="zRk-px-4Rd"/>
+                            <constraint firstItem="JnD-DM-Kcx" firstAttribute="leading" secondItem="oEa-ZJ-k26" secondAttribute="leading" id="zdx-Ed-N9x"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="yUM-Ps-xBL"/>
