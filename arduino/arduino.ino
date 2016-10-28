@@ -20,6 +20,7 @@ int lightVal = 0;
 bool buttonPressed = 0;
 bool servoUp = 1;
 byte buf[4] = {0};
+bool automated = true;
 
 unsigned long lastDebounceTime = 0;
 unsigned long debounceDelay = 200;
@@ -38,6 +39,12 @@ void servoTick(bool forever = false) {
   } else if (target < servo.read()) {
     servo.write(servo.read() - 1);
   }
+
+  if (millis() - lastDebounceTime > debounceDelay) {
+    ble_write(0x01);
+    ble_write(map(servo.read(), SERVO_MIN, SERVO_MAX, 0, 255));
+    lastDebounceTime = millis();
+  }
 }
 
 void setup() {
@@ -55,19 +62,23 @@ void setup() {
 
 void loop() {
   bool bp = !digitalRead(BUTTON_PIN);
-  if (bp && (millis() - lastDebounceTime > debounceDelay)) {
-    ble_write(0x01);
-    ble_write(map(servo.read(), SERVO_MIN, SERVO_MAX, 0, 255));
-    lastDebounceTime = millis();
-  }
-  if (buttonPressed & !bp) {
+  if (bp && automated) {
+    automated = 0;
+    ble_write(0x02);
+    ble_write(bp);
+  } else if (buttonPressed & !bp) {
     target = servo.read();
   }
   buttonPressed = bp;
   
   int lv = analogRead(PHOTO_RES);
+  if (lv < 400 && automated) {
+    target = SERVO_MIN;
+  } else if (lv > 700 && automated) {
+    target = SERVO_MAX;
+  }
+
   if (abs(lv - lightVal) > 10) {
-    lightVal = lv;
     lightVal = lv;
     ble_write(0x00);
     byte data = map(lightVal, 260, 1023, 0, 255);
@@ -81,18 +92,22 @@ void loop() {
       Serial.print(buf[len]);
       len += 1;
     }
-    Serial.println();
 
+    byte data;
     switch (buf[0]) {
       case 3:
-        byte data = buf[1];
+        data = buf[1];
         target = map(data, 0, 255, SERVO_MIN, SERVO_MAX);
+        break;
+      case 4:
+        data = buf[1];
+        automated = data;
         break;
     }
   }
-
-  ble_do_events();
+  
   servoTick(buttonPressed);
+  ble_do_events();
   delay(10);
 }
 
