@@ -17,9 +17,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.bleShield = [[BLE alloc] init];
-    [self.bleShield controlSetup];
-    self.bleShield.delegate = self;
     
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onBLEDidConnect:) name:kBleConnectNotification object:nil];
@@ -49,12 +46,12 @@
 //    [self.self.bleShieldShield write:d];
     
     self.BlindOverlay.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:(1.0-self.BlindSlider.value)];
-    UInt8 buf[3] = {0x03, 0x00, 0x00};  //opcode for slider we set to 0x03, other two bytes hold the data to send
+//    UInt8 buf[3] = {0x03, 0x00, 0x00};  //opcode for slider we set to 0x03, other two bytes hold the data to send
     
-    buf[1] = self.BlindSlider.value;
-    buf[2] = (int)self.BlindSlider.value >> 8;
+    UInt8 buf[2] = {0x03, 0x00};
+    buf[1] = (UInt8)(self.BlindSlider.value * 255);
     
-    NSData *data = [[NSData alloc] initWithBytes:buf length:3];
+    NSData *data = [[NSData alloc] initWithBytes:buf length:2];
     [self.bleShield write:data];
     
 }
@@ -79,9 +76,21 @@
             self.view.backgroundColor = [UIColor colorWithHue:0 saturation:0 brightness:1-v alpha:1];
         });
     }
-    
-//    float value = [s floatValue];
-//    self.BlindOverlay.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:(1.0-value)];
+    //receive button data
+    else if(opCode == 0x01) {
+        v = ((float)data) / 255.0;
+        NSLog(@"%d", data);
+        NSLog(@"%.4f", v);
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            self.BlindSlider.value = v;
+//        });
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [UIView animateWithDuration:2 animations:^{
+                [self.BlindSlider setValue: v];
+            }];
+        });
+        self.BlindOverlay.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:(1.0-v)];
+    }
 }
 
 -(void) onBLEDidDisconnect:(NSNotification *)NSNotification
@@ -92,23 +101,7 @@
 -(void) onBLEDidConnect:(NSNotification *)notification
 {
     NSString *name = [[notification userInfo] objectForKey:@"deviceName"];
-    NSLog(@"%@ %s", name, "Connected");
-
-    
-    //    [indConnecting stopAnimating];
-    
-    self.BlindSlider.enabled = true;
-    
-    self.BlindSlider.value = 0;
-    
-    // send reset
-    UInt8 buf[] = {0x04, 0x00, 0x00};  // opcode 0x04 is defined as a reset by the arduino code
-    NSData *data = [[NSData alloc] initWithBytes:buf length:3];
-    [self.bleShield write:data];
-
-    
-    
-    
+    NSLog(@"%@", name);
     //    rssiTimer = [NSTimer scheduledTimerWithTimeInterval:(float)1.0 target:self selector:@selector(readRSSITimer:) userInfo:nil repeats:YES];
 }
 
