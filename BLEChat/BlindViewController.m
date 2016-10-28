@@ -24,6 +24,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector (onBLEDidReceiveData:) name:kBleReceivedDataNotification object:nil];
 
+    self.BlindOverlay.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:(1.0-self.BlindSlider.value)];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -35,16 +36,11 @@
     
     self.BlindOverlay.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:(1.0-self.BlindSlider.value)];
     
-    NSString *s;
-    NSData *d;
+    UInt8 buf[2] = {0x03, 0x00};
+    buf[1] = (UInt8)(self.BlindSlider.value * 255);
     
-    float f = (int) (self.BlindSlider.value * 180);
-    
-    s = [NSString stringWithFormat:@"p %f", f];
-    NSLog(@"%@", s);
-    d = [s dataUsingEncoding:NSUTF8StringEncoding];
-    
-    [self.bleShield write:d];
+    NSData *data = [[NSData alloc] initWithBytes:buf length:2];
+    [self.bleShield write:data];
 }
 
 
@@ -52,11 +48,24 @@
 -(void) onBLEDidReceiveData:(NSNotification *)notification
 {
     NSData* d = [[notification userInfo] objectForKey:@"data"];
-    NSString *s = [[NSString alloc] initWithData:d encoding:NSUTF8StringEncoding];
-    NSLog(@"%@", s);
+    NSLog(@"%@", [d description]);
+    UInt8 opCode;
+    UInt8 data;
+    [d getBytes:&opCode length:1];
+    [d getBytes:&data range:NSMakeRange(1, 1)];
+    float v;
     
-    float value = [s floatValue];
-    self.BlindOverlay.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:(1.0-value)];
+    if (opCode == 0x00) {
+        v = ((float)data) / 255.0;
+        NSLog(@"%d", data);
+        NSLog(@"%.4f", v);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.view.backgroundColor = [UIColor colorWithHue:0 saturation:0 brightness:1-v alpha:1];
+        });
+    }
+    
+//    float value = [s floatValue];
+//    self.BlindOverlay.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:(1.0-value)];
 }
 
 -(void) onBLEDidDisconnect:(NSNotification *)NSNotification

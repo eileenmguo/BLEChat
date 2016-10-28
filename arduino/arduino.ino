@@ -20,7 +20,8 @@ int pos = 90;
 int target = 90;
 int inc = SERVO_STEP;
 int buttonValue = 0;
-char buf[16] = {0};
+int lightVal = 0;
+byte buf[4] = {0};
 unsigned char len = 0;
 
 void servoTick() {
@@ -46,33 +47,35 @@ void setup() {
 }
 
 void loop() {
-  //  temp = analogRead(PHOTO_RES);
-  //  Serial.println(temp);
-  //  target = temp > 400 ? SERVO_MAX : SERVO_MIN;
+  int lv = analogRead(PHOTO_RES);
+  if (abs(lv - lightVal) > 10) {
+    lightVal = lv;
+    Serial.print("l: ");
+    lightVal = lv;
+    ble_write(0x00);
+    byte data = map(lightVal, 260, 740, 0, 255);
+    Serial.println(data);
+    ble_write(data);
+  }
 
   if (ble_available()) {
-    while (ble_available() && len < 16) {
+    while (ble_available() && len < 4) {
       buf[len] = ble_read();
-      Serial.write(buf[len]);
+      Serial.print(buf[len]);
       len += 1;
     }
     Serial.println();
 
     switch (buf[0]) {
-      case 'p':
-        char * dataBuf = buf + 2;
-        int p = atoi(dataBuf);
-        Serial.println(p);
-        target = map(p, 0, 180, SERVO_MIN, SERVO_MAX);
-        Serial.println(target);
+      case 3:
+        byte data = buf[1];
+        target = map(data, 0, 255, SERVO_MIN, SERVO_MAX);
         break;
     }
-    // Handle the command
     len = 0;
   }
 
   ble_do_events();
-
   servoTick();
   delay(5);
 }
