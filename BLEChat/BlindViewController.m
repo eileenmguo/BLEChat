@@ -10,6 +10,9 @@
 
 @interface BlindViewController ()
 
+@property (strong, nonatomic) NSDate *lastSliderUpdateTime;
+@property NSTimeInterval debounceTime;
+
 @end
 
 @implementation BlindViewController
@@ -25,6 +28,10 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector (onBLEDidReceiveData:) name:kBleReceivedDataNotification object:nil];
 
     self.BlindOverlay.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:(1.0-self.BlindSlider.value)];
+    
+    self.lastSliderUpdateTime = [NSDate date];
+    self.debounceTime = 2.0;
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -44,6 +51,8 @@
 //    d = [s dataUsingEncoding:NSUTF8StringEncoding];
 //    
 //    [self.self.bleShieldShield write:d];
+    
+    self.lastSliderUpdateTime = [NSDate date];
     
     self.BlindOverlay.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:(1.0-self.BlindSlider.value)];
 //    UInt8 buf[3] = {0x03, 0x00, 0x00};  //opcode for slider we set to 0x03, other two bytes hold the data to send
@@ -78,9 +87,8 @@
     
     //receive data from photoresistor
     if (opCode == 0x00) {
+        // Brighness change
         v = ((float)data) / 255.0;
-        NSLog(@"%d", data);
-        NSLog(@"%.4f", v);
         dispatch_async(dispatch_get_main_queue(), ^{
             self.view.backgroundColor = [UIColor colorWithHue:0 saturation:0 brightness:1-v alpha:1];
         });
